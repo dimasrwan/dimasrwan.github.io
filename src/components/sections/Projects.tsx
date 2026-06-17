@@ -1,11 +1,12 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { useProjects } from '../../hooks/useProjects'
-import { ExternalLink } from 'lucide-react'
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useProjects, type Project } from '../../hooks/useProjects'
+import { ExternalLink, X } from 'lucide-react'
 import { SiGithub } from '@icons-pack/react-simple-icons'
 
 export const Projects: React.FC = () => {
   const { projects, loading, error } = useProjects()
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
     <section id="projects" className="relative py-24 md:py-32 overflow-hidden">
@@ -94,13 +95,20 @@ export const Projects: React.FC = () => {
                     {project.description}
                   </p>
                   
-                  <div className="flex flex-wrap gap-2 pt-6 border-t border-white/10">
+                  <div className="flex flex-wrap gap-2 pt-6 border-t border-white/10 mb-4">
                     {project.techStack?.map((tech, idx) => (
                       <span key={idx} className="font-label text-xs tracking-wider px-3 py-1.5 rounded-full bg-white/5 text-white/70 border border-white/5">
                         {tech}
                       </span>
                     ))}
                   </div>
+                  
+                  <button 
+                    onClick={() => setSelectedProject(project)}
+                    className="mt-auto w-full py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/90 font-label text-xs tracking-widest transition-all duration-300 hover:scale-[1.02]"
+                  >
+                    LIHAT DETAIL
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -108,6 +116,88 @@ export const Projects: React.FC = () => {
         )}
 
       </div>
+
+      {/* Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-12 overflow-y-auto">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-md"
+            />
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-4xl bg-[#0a0a0a] border border-white/10 rounded-3xl overflow-hidden shadow-2xl z-10 flex flex-col max-h-[90vh]"
+            >
+              <button 
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 z-20 p-2 bg-black/50 hover:bg-white/10 text-white/70 hover:text-white rounded-full backdrop-blur-md transition-colors"
+              >
+                <X size={24} />
+              </button>
+              
+              <div className="overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="h-64 sm:h-80 md:h-96 w-full relative bg-white/5">
+                  {selectedProject.imageUrl ? (
+                    <img 
+                      src={selectedProject.imageUrl} 
+                      alt={selectedProject.title} 
+                      className="w-full h-full object-cover" 
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-white/20">No Image</div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
+                </div>
+                
+                <div className="p-6 sm:p-8 md:p-10 -mt-16 relative z-10">
+                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+                    <div>
+                      <h3 className="font-display font-bold text-3xl sm:text-4xl text-white mb-4">{selectedProject.title}</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProject.techStack?.map((tech, idx) => (
+                          <span key={idx} className="font-label text-xs tracking-wider px-3 py-1.5 rounded-full bg-white/10 text-white/90 border border-white/10">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-4 shrink-0">
+                      {selectedProject.githubUrl && (
+                        <a href={selectedProject.githubUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-label transition-colors">
+                          <SiGithub size={18} />
+                          <span>Source</span>
+                        </a>
+                      )}
+                      {selectedProject.liveUrl && (
+                        <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-black hover:bg-white/90 text-sm font-label transition-colors">
+                          <ExternalLink size={18} />
+                          <span>Visit Live</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="prose prose-invert max-w-none font-body text-white/70 leading-relaxed">
+                    {selectedProject.description.split('\n').map((paragraph, i) => (
+                      <p key={i} className="mb-4">{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </section>
   )
 }
