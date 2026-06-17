@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { SiInstagram, SiGithub } from '@icons-pack/react-simple-icons'
-import { Mail, ChevronRight, ExternalLink } from 'lucide-react'
+import { Mail, ChevronRight } from 'lucide-react'
 
 const contactMethods = [
   {
