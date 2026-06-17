@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { SiInstagram } from '@icons-pack/react-simple-icons'
+import { SiInstagram, SiGithub } from '@icons-pack/react-simple-icons'
 import { Mail, ChevronRight, ExternalLink } from 'lucide-react'
 
 const contactMethods = [
@@ -21,12 +21,12 @@ const contactMethods = [
     url: 'https://www.instagram.com/dimasrwan?igsh=MXU1bWd0dDd0ejdndQ==',
   },
   {
-    id: 'linkedin',
-    title: 'LinkedIn',
-    subtitle: 'Dimas Irawan',
-    icon: ExternalLink,
+    id: 'github',
+    title: 'GitHub',
+    subtitle: '@dimasrwan',
+    icon: SiGithub,
     action: 'link',
-    url: 'https://linkedin.com/in/dimasirawan',
+    url: 'https://github.com/dimasrwan',
   }
 ]
 

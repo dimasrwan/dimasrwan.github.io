@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
           </p>
         </div>
         <div className="flex flex-col md:items-end gap-4 sm:gap-6">
-          <div className="font-label-sm text-[10px] sm:text-xs text-on-surface-variant">© 2024 Dimas Irawan — HAK CIPTA DILINDUNGI</div>
+          <div className="font-label-sm text-[10px] sm:text-xs text-on-surface-variant">© 2026 Dimas Irawan — HAK CIPTA DILINDUNGI</div>
         </div>
       </div>
     </footer>

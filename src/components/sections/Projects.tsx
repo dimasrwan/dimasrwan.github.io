@@ -52,7 +52,7 @@ export const Projects: React.FC = () => {
             </p>
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 overflow-x-auto pb-8 pt-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {projects.map((project, index) => (
               <motion.div 
                 key={project.id}
@@ -60,7 +60,7 @@ export const Projects: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: 0.1 * index, duration: 0.5 }}
-                className="glass-card rounded-3xl border border-white/10 bg-white/5 overflow-hidden flex flex-col group hover:border-white/20 transition-all duration-500 hover:-translate-y-2"
+                className="w-[300px] sm:w-[350px] md:w-auto snap-center shrink-0 glass-card rounded-3xl border border-white/10 bg-white/5 overflow-hidden flex flex-col group hover:border-white/20 transition-all duration-500 hover:-translate-y-2"
               >
                 <div className="h-56 sm:h-64 overflow-hidden bg-white/5 relative">
                   {project.imageUrl ? (
